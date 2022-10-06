@@ -66,8 +66,13 @@ void AppImplMswBasic::run()
 	for( auto &window : mWindows )
 		window->resize();
 
+	// calculate time per frame in seconds
+	double secondsPerFrame = 1.0 / mFrameRate;
+
 	// initialize our next frame time
-	mNextFrameTime = getElapsedSeconds();
+	mNextFrameTime = getElapsedSeconds() + secondsPerFrame;
+
+	timeBeginPeriod(1);
 
 	// inner loop
 	while( ! mShouldQuit ) {
@@ -83,35 +88,32 @@ void AppImplMswBasic::run()
 
 		// update and draw
 		mApp->privateUpdate__();
+
+		// get current time in seconds
+		double currentSeconds = mApp->getElapsedSeconds();
+
+		if ((mFrameRateEnabled) && (mNextFrameTime > currentSeconds))
+			sleep(mNextFrameTime - currentSeconds);
+
+		//while (mNextFrameTime > mApp->getElapsedSeconds()) {
+		//	MSG msg;
+		//	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+		//		::TranslateMessage(&msg);
+		//		::DispatchMessage(&msg);
+		//	}
+		//}
+		
+		mNextFrameTime = mApp->getElapsedSeconds() + secondsPerFrame;
+
 		for( auto &window : mWindows ) {
 			if( ! mShouldQuit ) // test for quit() issued either from update() or prior draw()
 				window->redraw();
 		}
-		// get current time in seconds
-		double currentSeconds = mApp->getElapsedSeconds();
 
-		// calculate time per frame in seconds
-		double secondsPerFrame = 1.0 / mFrameRate;
-
-		// determine if application was frozen for a while and adjust next frame time
-		double elapsedSeconds = currentSeconds - mNextFrameTime;
-		if( elapsedSeconds > 1.0 ) {
-			int numSkipFrames = (int)(elapsedSeconds / secondsPerFrame);
-			mNextFrameTime += (numSkipFrames * secondsPerFrame);
-		}
-
-		// determine when next frame should be drawn
-		mNextFrameTime += secondsPerFrame;
-
-		// sleep and process messages until next frame
-		if( ( mFrameRateEnabled ) && ( mNextFrameTime > currentSeconds ) )
-			sleep(mNextFrameTime - currentSeconds);
-		else {
-			MSG msg;
-			while( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) {
-				::TranslateMessage( &msg );
-				::DispatchMessage( &msg );
-			}
+		MSG msg;
+		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			::TranslateMessage(&msg);
+			::DispatchMessage(&msg);
 		}
 	}
 
