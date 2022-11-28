@@ -71,6 +71,7 @@ void RendererImplGlMsw::defaultResize() const
 void RendererImplGlMsw::swapBuffers() const
 {
 	::SwapBuffers( mWindowImpl->getDc() );
+
 }
 
 void RendererImplGlMsw::makeCurrentContext( bool force )
