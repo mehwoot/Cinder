@@ -797,8 +797,10 @@ LRESULT CALLBACK WndProc(	HWND	mWnd,			// Handle For This Window
 		impl = reinterpret_cast<WindowImplMsw*>( ::GetWindowLongPtr( mWnd, GWLP_USERDATA ) );
 
 	if( ! impl )
-		return DefWindowProc( mWnd, uMsg, wParam, lParam );		
-	impl->mAppImpl->setWindow( impl->mWindowRef );
+		return DefWindowProc( mWnd, uMsg, wParam, lParam );	
+
+	if ( impl->mWindowRef )
+		impl->mAppImpl->setWindow(impl->mWindowRef);
 
 	switch( uMsg ) {
 		case WM_SYSCOMMAND:
@@ -818,6 +820,7 @@ LRESULT CALLBACK WndProc(	HWND	mWnd,			// Handle For This Window
 			}
 		break;
 		case WM_ACTIVATEAPP:
+			if (!impl->mWindowRef) { return false; }
 			if( wParam ) {
 				if( ! impl->getAppImpl()->mActive ) {
 					impl->getAppImpl()->mActive = true;
