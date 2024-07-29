@@ -76,7 +76,8 @@ class AppImplMsw {
 	
 	static void	hideCursor();
 	static void	showCursor();
-		
+	double getIdleTimeLastFrameMilliseconds() const { return mIdleTimeLastFrame; }
+
 	static fs::path		getOpenFilePath( const fs::path &initialPath, std::vector<std::string> extensions );
 	static fs::path		getSaveFilePath( const fs::path &initialPath, std::vector<std::string> extensions );
 	static fs::path		getFolderPath( const fs::path &initialPath );
@@ -87,8 +88,11 @@ class AppImplMsw {
 	virtual void			setForegroundWindow( WindowRef window ) = 0;
 	bool					getHighDensityDisplayEnabled() const;
 
+
+
 	class AppBase			*mApp;
 	float					mFrameRate;
+	double					mIdleTimeLastFrame;
 	WindowRef				mActiveWindow;
 	bool					mSetupHasBeenCalled;
 	bool					mHighDensityDispalyEnabled();

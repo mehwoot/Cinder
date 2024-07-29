@@ -71,11 +71,18 @@ void AppImplMswBasic::run()
 
 	// initialize our next frame time
 	mNextFrameTime = getElapsedSeconds() + secondsPerFrame;
-
+	
 	timeBeginPeriod(1);
+	double frameStartTimeSeconds = mApp->getElapsedSeconds();
 
 	// inner loop
 	while( ! mShouldQuit ) {
+		secondsPerFrame = 1.0 / mFrameRate;
+		double nextFrameStartTimeSeconds = frameStartTimeSeconds + secondsPerFrame;
+
+		// update and draw
+		mApp->privateUpdate__();
+
 		// all of our Windows will have marked this as true if the user has unplugged, plugged or modified a Monitor
 		if( mNeedsToRefreshDisplays ) {
 			mNeedsToRefreshDisplays = false;
@@ -85,26 +92,7 @@ void AppImplMswBasic::run()
 				for( auto &window : mWindows )
 					window->resize();
 		}
-
-		// update and draw
-		mApp->privateUpdate__();
-
-		// get current time in seconds
-		double currentSeconds = mApp->getElapsedSeconds();
-
-		if ((mFrameRateEnabled) && (mNextFrameTime > currentSeconds))
-			sleep(mNextFrameTime - currentSeconds);
-
-		//while (mNextFrameTime > mApp->getElapsedSeconds()) {
-		//	MSG msg;
-		//	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-		//		::TranslateMessage(&msg);
-		//		::DispatchMessage(&msg);
-		//	}
-		//}
 		
-		mNextFrameTime = mApp->getElapsedSeconds() + secondsPerFrame;
-
 		for( auto &window : mWindows ) {
 			if( ! mShouldQuit ) // test for quit() issued either from update() or prior draw()
 				window->redraw();
@@ -114,6 +102,19 @@ void AppImplMswBasic::run()
 		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			::TranslateMessage(&msg);
 			::DispatchMessage(&msg);
+		}
+
+		double currentTimeSeconds = mApp->getElapsedSeconds();
+
+		if ((mFrameRateEnabled) && (nextFrameStartTimeSeconds > currentTimeSeconds)) {
+			frameStartTimeSeconds = nextFrameStartTimeSeconds;
+			mIdleTimeLastFrame = (nextFrameStartTimeSeconds - currentTimeSeconds) * 1000.0;
+			sleep(std::max(nextFrameStartTimeSeconds - currentTimeSeconds - 0.002, 0.0));
+			while (mApp->getElapsedSeconds() < nextFrameStartTimeSeconds) {}
+			//std::cout << "cinder post update sleep for " << (nextFrameStartTimeSeconds - currentTimeSeconds) << std::endl;
+		} else {
+			mIdleTimeLastFrame = 0.0;
+			frameStartTimeSeconds = currentTimeSeconds;
 		}
 	}
 

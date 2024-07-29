@@ -70,6 +70,7 @@ class CI_API AppMsw : public AppBase {
 
 	void		hideCursor() override;
 	void		showCursor() override;
+	double		getIdleTimeLastFrameMilliseconds() override;
 	ivec2		getMousePos() const override;
 
 	//! \cond

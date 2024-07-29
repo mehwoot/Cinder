@@ -92,7 +92,7 @@ extern "C" {
 // Use embedded miniz or not to decode ZIP format pixel. Linking with zlib
 // required if this flas is 0.
 #ifndef TINYEXR_USE_MINIZ
-#define TINYEXR_USE_MINIZ (1)
+#define TINYEXR_USE_MINIZ (0)
 #endif
 
 // Disable PIZ comporession when applying cpplint.

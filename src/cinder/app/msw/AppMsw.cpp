@@ -138,6 +138,10 @@ void AppMsw::showCursor()
 	AppImplMsw::showCursor();
 }
 
+double AppMsw::getIdleTimeLastFrameMilliseconds() {
+	return mImpl->getIdleTimeLastFrameMilliseconds();
+}
+
 ivec2 AppMsw::getMousePos() const
 {
 	POINT point;

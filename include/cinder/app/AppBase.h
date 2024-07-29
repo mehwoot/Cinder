@@ -234,6 +234,9 @@ class CI_API AppBase {
 	//! Requests that the application exit gracefully upon completion of the current event loop. Use std::terminate() instead to end application immediately.
 	virtual void	quit() = 0;
 
+	//! Get the amount of time, measured in milliseconds, that nothing was happening last frame.  Only relevant if framerate limiting is turned on
+	virtual double	getIdleTimeLastFrameMilliseconds() = 0;
+
 	//! Emitted at the start of each application update cycle
 	signals::Signal<void()>&	getSignalUpdate() { return mSignalUpdate; }
 
