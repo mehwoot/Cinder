@@ -371,10 +371,10 @@ CI_API inline void framebufferTexture2D( GLenum target, GLenum attachment, GLenu
 CI_API inline void textureBarrierNV() { glTextureBarrierNV(); }
 
 // fixed-function compatability context glColor*() wrappers
-CI_API inline void compatColor( const Color &color ) { glColor3fv( &color.r ); }
-CI_API inline void compatColor( const ColorA &color ) { glColor4fv( &color.r ); }
-CI_API inline void compatColor( const Color8u &color ) { glColor3ubv( &color.r ); }
-CI_API inline void compatColor( const ColorA8u &color ) { glColor4ubv( &color.r ); }
+//CI_API inline void compatColor( const Color &color ) { glColor3fv( &color.r ); }
+//CI_API inline void compatColor( const ColorA &color ) { glColor4fv( &color.r ); }
+//CI_API inline void compatColor( const Color8u &color ) { glColor3ubv( &color.r ); }
+//CI_API inline void compatColor( const ColorA8u &color ) { glColor4ubv( &color.r ); }
 
 // NV_path_rendering extension
 CI_API inline GLuint genPathsNV( GLsizei range ) { return glGenPathsNV( range ); }

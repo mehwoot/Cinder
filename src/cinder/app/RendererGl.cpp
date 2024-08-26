@@ -272,8 +272,11 @@ void RendererGl::finishDraw()
 {
 	if( mFinishDrawFn )
 		mFinishDrawFn( this );
-	else
+	else {
 		mImpl->swapBuffers();
+		glFinish();
+	}
+
 }
 
 void RendererGl::defaultResize()
