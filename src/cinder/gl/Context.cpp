@@ -179,6 +179,44 @@ ContextRef Context::createFromExisting( const std::shared_ptr<PlatformData> &pla
 	return result;
 }
 
+void Context::clearStacks() {
+	//mBufferBindingStack.clear();
+	//mRenderbufferBindingStack.clear();
+	//mGlslProgStack.clear();
+	//mVaoStack.clear();
+	//mBlendSrcRgbStack.clear(); 
+	//mBlendDstRgbStack.clear();
+	//mBlendSrcAlphaStack.clear(); 
+	//mBlendDstAlphaStack.clear();
+	//mReadFramebufferStack.clear();
+	//mDrawFramebufferStack.clear();
+	//mCullFaceStack.clear();
+	//mFrontFaceStack.clear();
+	//mLogicOpStack.clear();
+	//mPolygonModeStack.clear();
+	//mDepthMaskStack.clear();
+	//mDepthFuncStack.clear();
+
+	GLboolean currentDepthWrite = glIsEnabled(GL_DEPTH_WRITEMASK);
+	setStackState(mDepthMaskStack, currentDepthWrite);
+	GLboolean currentDepthRead = glIsEnabled(GL_DEPTH_TEST);
+	setStackState(mBoolStateStack[GL_DEPTH_TEST], currentDepthRead);
+
+	//if (mDepthMaskStack.size() > 0 && currentDepthWrite != mDepthMaskStack.front()) {
+	//	mDepthMaskStack.push(currentDepthWrite);
+	//}
+	//mBoolStateStack.clear();
+	mTextureBindingStack.clear();
+	mActiveTextureStack.clear();
+	mSamplerBindingStack.clear();
+	//mViewportStack.clear();
+	//mScissorStack.clear();
+	//mModelMatrixStack.clear();
+	//mViewMatrixStack.clear();
+	//mProjectionMatrixStack.clear();
+	//mLineWidthStack.clear();
+}
+
 void Context::makeCurrent( bool force ) const
 {
 #if defined( CINDER_COCOA ) || defined( CINDER_LINUX )

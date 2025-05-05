@@ -83,6 +83,11 @@ class CI_API Context {
 
 	~Context();
 
+	// Clear the stacks that attempt to track what objects (e.g. textures, etc) are currently bound
+	// necessary if there is other code calling OpenGL functions, as this context wrapper will attempt
+	// to be smart and not bind objects if it thinks they are already bound, which could be inaccurate
+	void clearStacks();
+
 	//! Returns the platform-specific OpenGL Context. CGLContextObj on Mac OS X, EAGLContext on iOS
 	const std::shared_ptr<PlatformData>		getPlatformData() const { return mPlatformData; }
 
