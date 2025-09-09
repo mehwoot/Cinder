@@ -150,6 +150,8 @@ class WindowImplMsw {
 	HDC				getDc() const { return mDC; }
 
 	void			privateClose();
+
+	static bool 			WND_PROC_IGNORE;
   protected:
 	//! Sets 'mWindowStyle' and 'mWindowExStyle' based on 'mFullScreen' and 'mBorderless'
 	void			setWindowStyleValues();

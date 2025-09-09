@@ -221,8 +221,11 @@ void RendererGl::setup( WindowImplMsw *windowImpl, RendererRef sharedRenderer )
 #else
 		mImpl = new RendererImplGlMsw( this );
 #endif
-	if( ! mImpl->initialize( windowImpl, sharedRenderer ) )
-		throw ExcRendererAllocation( "RendererImplGlMsw initialization failed." );
+	if (!mImpl->initialize(windowImpl, sharedRenderer)) {
+		WindowImplMsw::WND_PROC_IGNORE = true; // prevent the window from processing any more messages
+		throw ExcRendererAllocation("RendererImplGlMsw initialization failed.");
+	}
+		
 }
 
 HWND RendererGl::getHwnd() const

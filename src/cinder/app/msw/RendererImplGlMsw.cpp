@@ -204,6 +204,7 @@ HGLRC createContext( HDC dc, bool coreProfile, bool debug, int majorVersion, int
 		return result;
 	}
 	else {
+		WindowImplMsw::WND_PROC_IGNORE = true;
 		throw ExcRendererAllocation( "wglCreateContextAttribsARB / wglChoosePixelFormatARB unavailable" );
 	}
 }
@@ -212,8 +213,10 @@ bool testPixelFormat( HDC dc, int colorSamples, int depthDepth, int msaaSamples,
 {
 	PFNWGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARBPtr = NULL;
 	PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARBPtr = NULL;
-	if( ! getWglFunctionPointers( &wglCreateContextAttribsARBPtr, &wglChoosePixelFormatARBPtr ) )
-		throw ExcRendererAllocation( "wglCreateContextAttribsARB / wglChoosePixelFormatARB unavailable" );
+	if (!getWglFunctionPointers(&wglCreateContextAttribsARBPtr, &wglChoosePixelFormatARBPtr)) {
+		WindowImplMsw::WND_PROC_IGNORE = true;
+		throw ExcRendererAllocation("wglCreateContextAttribsARB / wglChoosePixelFormatARB unavailable");
+	}
 
 	float fAttributes[] = {0,0};
 	std::vector<int> iAttributes;
@@ -277,8 +280,10 @@ GLenum getMultiGpuContextMode( const app::RendererGl::Options::MultiGpuModeNV& m
 
 bool initializeGl( HWND /*wnd*/, HDC dc, HGLRC sharedRC, const RendererGl::Options &options, HGLRC *resultRc )
 {
-	if( ! setPixelFormat( dc, options ) )
-		throw ExcRendererAllocation( "Failed to find suitable WGL pixel format" );
+	if (!setPixelFormat(dc, options)) {
+		WindowImplMsw::WND_PROC_IGNORE = true;
+		throw ExcRendererAllocation("Failed to find suitable WGL pixel format");
+	}
 
 	GLenum multigpu = 0;
 	if( options.isMultiGpuEnabledNV() ) {

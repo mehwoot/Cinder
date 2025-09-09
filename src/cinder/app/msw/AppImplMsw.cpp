@@ -781,12 +781,18 @@ void WindowImplMsw::setAlwaysOnTop( bool alwaysOnTop )
 	}
 }
 
+bool WindowImplMsw::WND_PROC_IGNORE = false;
+
 LRESULT CALLBACK WndProc(	HWND	mWnd,			// Handle For This Window
 							UINT	uMsg,			// Message For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
 	WindowImplMsw* impl;
+
+	if (WindowImplMsw::WND_PROC_IGNORE) {
+		return DefWindowProc(mWnd, uMsg, wParam, lParam);
+	}
 
 	// if the message is WM_NCCREATE we need to hide 'this' in the window long
 	if( uMsg == WM_NCCREATE ) {
