@@ -238,6 +238,11 @@ void Context::makeCurrent( bool force ) const
 
 Context* Context::getCurrent()
 {
+	static auto threadId = std::this_thread::get_id();
+	if (threadId != std::this_thread::get_id()) {
+		throw std::runtime_error("gl::context() called from different thread than it was first called on");
+	}
+
 #if defined( CINDER_COCOA ) || defined( CINDER_LINUX )
 	if( ! sThreadSpecificCurrentContextInitialized ) {
 		return nullptr;
