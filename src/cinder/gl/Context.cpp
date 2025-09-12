@@ -197,7 +197,9 @@ void Context::clearStacks() {
 	//mDepthMaskStack.clear();
 	//mDepthFuncStack.clear();
 
-	GLboolean currentDepthWrite = glIsEnabled(GL_DEPTH_WRITEMASK);
+	GLboolean currentDepthWrite;
+	glGetBooleanv(GL_DEPTH_WRITEMASK, &currentDepthWrite);
+	//= glIsEnabled(GL_DEPTH_WRITEMASK);
 	setStackState(mDepthMaskStack, currentDepthWrite);
 	GLboolean currentDepthRead = glIsEnabled(GL_DEPTH_TEST);
 	setStackState(mBoolStateStack[GL_DEPTH_TEST], currentDepthRead);
