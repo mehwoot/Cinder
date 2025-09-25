@@ -231,12 +231,14 @@ void Camera::getClipCoordinates( float clipDist, float ratio, vec3* topLeft, vec
 // CameraPersp
 // Creates a default camera resembling Maya Persp
 CameraPersp::CameraPersp()
+	: mReversedZ( false )
 {
 	lookAt( vec3( 28, 21, 28 ), vec3(), vec3( 0, 1, 0 ) );
 	setPerspective( 35, 1.3333f, 0.1f, 1000 );
 }
 
 CameraPersp::CameraPersp( int pixelWidth, int pixelHeight, float fovDegrees )
+	: mReversedZ( false )
 {
 	float eyeX 		= pixelWidth / 2.0f;
 	float eyeY 		= pixelHeight / 2.0f;
@@ -252,6 +254,7 @@ CameraPersp::CameraPersp( int pixelWidth, int pixelHeight, float fovDegrees )
 }
 
 CameraPersp::CameraPersp( int pixelWidth, int pixelHeight, float fovDegrees, float nearPlane, float farPlane )
+	: mReversedZ( false )
 {
 	float halfFov, theTan, aspect;
 
@@ -317,8 +320,13 @@ void CameraPersp::calcProjection() const
 
 	p[0][2] =  0.0f;
 	p[1][2] =  0.0f;
-	p[2][2] = -( mFarClip + mNearClip ) / ( mFarClip - mNearClip );
-	p[3][2] = -2.0f * mFarClip * mNearClip / ( mFarClip - mNearClip );
+	if( mReversedZ ) {
+		p[2][2] = mNearClip / ( mFarClip - mNearClip );
+		p[3][2] = mFarClip * mNearClip / ( mFarClip - mNearClip );
+	} else {
+		p[2][2] = -( mFarClip + mNearClip ) / ( mFarClip - mNearClip );
+		p[3][2] = -2.0f * mFarClip * mNearClip / ( mFarClip - mNearClip );
+	}
 
 	p[0][3] =  0.0f;
 	p[1][3] =  0.0f;
@@ -343,8 +351,13 @@ void CameraPersp::calcProjection() const
 
 	m[0][3] =  0.0f;
 	m[1][3] =  0.0f;
-	m[2][3] = -( mFarClip - mNearClip ) / ( 2.0f * mFarClip*mNearClip );
-	m[3][3] =  ( mFarClip + mNearClip ) / ( 2.0f * mFarClip*mNearClip );
+	if( mReversedZ ) {
+		m[2][3] = ( mFarClip - mNearClip ) / ( mFarClip * mNearClip );
+		m[3][3] = -mFarClip / ( mFarClip * mNearClip );
+	} else {
+		m[2][3] = -( mFarClip - mNearClip ) / ( 2.0f * mFarClip*mNearClip );
+		m[3][3] =  ( mFarClip + mNearClip ) / ( 2.0f * mFarClip*mNearClip );
+	}
 
 	mProjectionCached = true;
 }

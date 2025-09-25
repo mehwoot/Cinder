@@ -227,8 +227,15 @@ class CI_API CameraPersp : public Camera {
 
 	//! Returns a subdivided portion of this camera's view frustrum as a new CameraPersp; useful for multi-gpu or tiled-rendering for instance.
 	CameraPersp		subdivide( const glm::uvec2& gridSize, const glm::uvec2& gridIndex ) const;
+
+	//! Returns whether the depth buffer is reversed (1.0 at near plane, 0.0 at far plane)
+	bool	isReversedZ() const { return mReversedZ; }
+	//! Sets whether the depth buffer should be reversed (1.0 at near plane, 0.0 at far plane)
+	void	setReversedZ( bool reversed ) { mReversedZ = reversed; mProjectionCached = false; }
+
   protected:
 	vec2	mLensShift;
+	bool	mReversedZ;
 
 	void	calcProjection() const override;
 	Ray		calcRay( float u, float v, float imagePlaneAspectRatio ) const override;
