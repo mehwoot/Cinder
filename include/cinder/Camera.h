@@ -108,6 +108,7 @@ class CI_API Camera {
 	
 	//! Returns the Camera's Projection matrix, which converts view-space into clip-space
 	virtual const mat4&	getProjectionMatrix() const { if( ! mProjectionCached ) calcProjection(); return mProjectionMatrix; }
+	virtual const mat4&	getInverseProjectionMatrix() const { if( ! mProjectionCached ) calcProjection(); return mInverseProjectionMatrix; }
 	//! Returns the Camera's View matrix, which converts world-space into view-space
 	virtual const mat4&	getViewMatrix() const { if( ! mModelViewCached ) calcViewMatrix(); return mViewMatrix; }
 	//! Returns the Camera's Inverse View matrix, which converts view-space into world-space

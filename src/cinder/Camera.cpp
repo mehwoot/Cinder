@@ -352,8 +352,13 @@ void CameraPersp::calcProjection() const
 	m[0][3] =  0.0f;
 	m[1][3] =  0.0f;
 	if( mReversedZ ) {
+		// Corrected inverse projection for reversed Z with GL_ZERO_TO_ONE
+		// For reversed Z, the forward projection is:
+		//   clipZ = (near/(far-near) * viewZ + far*near/(far-near)) / (-viewZ)
+		// Solving for viewZ given clipZ:
+		//   viewZ = -1 / ((far-near)/(far*near) * clipZ + 1/far)
 		m[2][3] = ( mFarClip - mNearClip ) / ( mFarClip * mNearClip );
-		m[3][3] = -mFarClip / ( mFarClip * mNearClip );
+		m[3][3] = 1.0f / mFarClip;
 	} else {
 		m[2][3] = -( mFarClip - mNearClip ) / ( 2.0f * mFarClip*mNearClip );
 		m[3][3] =  ( mFarClip + mNearClip ) / ( 2.0f * mFarClip*mNearClip );

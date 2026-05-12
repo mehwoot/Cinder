@@ -98,6 +98,8 @@ void AppImplMswBasic::run()
 				window->redraw();
 		}
 
+		mApp->postDraw();
+
 		MSG msg;
 		while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			::TranslateMessage(&msg);

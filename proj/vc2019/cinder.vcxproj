@@ -197,29 +197,29 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug_ANGLE|x64'">$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Shared|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANGLE|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Shared|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANGLE|x64'">
-    <OutDir>$(ProjectDir)..\..\lib\msw\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\cinder\lib</OutDir>
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(ProjectDir)build\$(PlatformTarget)\$(Configuration)\$(PlatformToolset)\intermediate\</IntDir>
   </PropertyGroup>
