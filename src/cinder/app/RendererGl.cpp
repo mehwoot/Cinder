@@ -277,7 +277,7 @@ void RendererGl::finishDraw()
 		mFinishDrawFn( this );
 	else {
 		mImpl->swapBuffers();
-		glFinish();
+		//glFinish();
 	}
 
 }
